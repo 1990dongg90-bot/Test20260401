@@ -19,10 +19,15 @@ export interface SiteSettings {
   seoDescription: string;
 }
 
+export interface HeroSlide {
+  id: string;
+  imageUrl: string;
+  title: string;
+  description: string;
+}
+
 export interface PageContent {
-  heroTitle: string;
-  heroSubtitle: string;
-  heroImage: string;
+  heroSlides: HeroSlide[];
   aboutText: string;
 }
 
@@ -48,10 +53,45 @@ export const useCMSStore = create<CMSState>((set) => ({
     seoDescription: '가스부스터, 펌프, 증압기 등 최고 수준의 고압 솔루션을 제공합니다.',
   },
   content: {
-    heroTitle: '최고의 기술력으로 완성하는 고압 솔루션',
-    heroSubtitle: '가스부스터, 펌프, 증압기 분야의 글로벌 리더 멕시메이터코리아(주)입니다.',
-    heroImage: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80',
-    aboutText: '멕시메이터코리아(주)는 독일 엔지니어링 기술을 바탕으로 고압 기술, 유압 및 공압 시스템을 선도하는 기업입니다. 고객의 성공적인 비즈니스를 위해 최적의 솔루션을 제공합니다.',
+    heroSlides: [
+      {
+        id: '1',
+        imageUrl: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80', // 첨부해주신 이미지는 관리자 페이지에서 직접 등록해주세요!
+        title: 'Valve, Fitting and Tubing',
+        description: '최대 10500bar',
+      },
+      {
+        id: '2',
+        imageUrl: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80',
+        title: 'High Pressure Pumps',
+        description: '공기 구동식 고압 펌프',
+      },
+      {
+        id: '3',
+        imageUrl: 'https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&q=80',
+        title: 'Gas Boosters',
+        description: '무급유 가스 부스터 시스템',
+      },
+      {
+        id: '4',
+        imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80',
+        title: 'Hydrogen Compressors',
+        description: '수소 충전소용 고효율 압축기',
+      },
+      {
+        id: '5',
+        imageUrl: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&q=80',
+        title: 'Customized Solutions',
+        description: '고객 맞춤형 고압 시스템 설계',
+      },
+      {
+        id: '6',
+        imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80',
+        title: 'Global Service',
+        description: '전 세계적인 서비스 및 기술 지원',
+      },
+    ],
+    aboutText: '당사는 독일 MAXIMATOR GmbH와 싱가포르 MAXIMATOR FAR EAST의 한국 법인으로서, 고압 펌프, 가스 부스터, 밸브(V.F.T), 테스트 장비 등 검증된 품질의 제품을 국내 엔지니어링 기업 및 산업 현장에 공급하고 있습니다.\n\n신뢰할 수 있는 기술력을 바탕으로 고객에게 최적화된 시스템과 서비스를 제공하며, 끊임없이 최신 선진 기술을 발굴하여 고객의 성공적인 비즈니스를 돕는 든든한 파트너가 되겠습니다.',
   },
   posts: [
     {

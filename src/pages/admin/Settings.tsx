@@ -115,37 +115,69 @@ export default function Settings() {
           </div>
         </div>
 
-        {/* 메인 페이지 콘텐츠 */}
+        {/* 메인 페이지 슬라이드 설정 */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6 border-b pb-4">메인 페이지 콘텐츠</h2>
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">히어로 섹션 제목</label>
-              <input
-                type="text"
-                value={localContent.heroTitle}
-                onChange={(e) => setLocalContent({ ...localContent, heroTitle: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2 border"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">히어로 섹션 부제목</label>
-              <textarea
-                rows={2}
-                value={localContent.heroSubtitle}
-                onChange={(e) => setLocalContent({ ...localContent, heroSubtitle: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2 border"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">히어로 섹션 배경 이미지 URL</label>
-              <input
-                type="text"
-                value={localContent.heroImage}
-                onChange={(e) => setLocalContent({ ...localContent, heroImage: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2 border"
-              />
-            </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 border-b pb-4">메인 화면 슬라이드 설정</h2>
+          <div className="space-y-8">
+            {localContent.heroSlides?.map((slide, index) => (
+              <div key={slide.id} className="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                <h3 className="font-medium text-gray-900 mb-4">슬라이드 {index + 1}</h3>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700">이미지 URL</label>
+                    <input
+                      type="text"
+                      value={slide.imageUrl}
+                      onChange={(e) => {
+                        const newSlides = [...localContent.heroSlides];
+                        newSlides[index].imageUrl = e.target.value;
+                        setLocalContent({ ...localContent, heroSlides: newSlides });
+                      }}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2 border"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">제목</label>
+                    <input
+                      type="text"
+                      value={slide.title}
+                      onChange={(e) => {
+                        const newSlides = [...localContent.heroSlides];
+                        newSlides[index].title = e.target.value;
+                        setLocalContent({ ...localContent, heroSlides: newSlides });
+                      }}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2 border"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">설명</label>
+                    <input
+                      type="text"
+                      value={slide.description}
+                      onChange={(e) => {
+                        const newSlides = [...localContent.heroSlides];
+                        newSlides[index].description = e.target.value;
+                        setLocalContent({ ...localContent, heroSlides: newSlides });
+                      }}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2 border"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 회사 소개 텍스트 */}
+        <div className="bg-white shadow rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6 border-b pb-4">회사 소개 텍스트</h2>
+          <div>
+            <textarea
+              rows={6}
+              value={localContent.aboutText}
+              onChange={(e) => setLocalContent({ ...localContent, aboutText: e.target.value })}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm p-2 border"
+            />
           </div>
         </div>
 

@@ -16,7 +16,7 @@ export default function About() {
         >
           <h1 className="text-4xl font-bold text-gray-900 mb-6">회사소개</h1>
           <div className="w-24 h-1 mx-auto mb-8" style={{ backgroundColor: settings.primaryColor }}></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed whitespace-pre-line">
             {content.aboutText}
           </p>
         </motion.div>
@@ -41,8 +41,7 @@ export default function About() {
           >
             <h2 className="text-3xl font-bold text-gray-900">글로벌 고압 기술의 리더</h2>
             <p className="text-gray-600 leading-relaxed">
-              멕시메이터는 고압, 테스트, 유압 및 공압 시스템 분야의 선도적인 공급업체입니다. 
-              우리의 시스템은 전 세계의 다양한 산업 분야에서 사용되며, 최고의 품질과 신뢰성을 자랑합니다.
+              최고의 제품과 최신의 선진기술을 바탕으로, 고객이 원하는 최적의 솔루션을 제공하기 위해 끊임없이 노력하고 있습니다.
             </p>
             <ul className="space-y-4">
               {[

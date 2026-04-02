@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCMSStore } from '../store';
-import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle2, Factory, ShieldCheck, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Factory, ShieldCheck, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
   const { settings, content, posts } = useCMSStore();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const slides = content.heroSlides || [];
+
+  useEffect(() => {
+    if (isPaused || slides.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isPaused, slides.length]);
+
+  const handleDotClick = (index: number) => {
+    setCurrentIndex(index);
+    setIsPaused(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 10000);
+  };
 
   const features = [
     {
@@ -28,54 +50,56 @@ export default function Home() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={content.heroImage}
-            alt="Hero Background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/60 mix-blend-multiply" />
-        </div>
+      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-gray-900">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute inset-0 z-0"
+          >
+            <img
+              src={slides[currentIndex]?.imageUrl}
+              alt={slides[currentIndex]?.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/50 mix-blend-multiply" />
+          </motion.div>
+        </AnimatePresence>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
-          >
-            {content.heroTitle}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto"
-          >
-            {content.heroSubtitle}
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              to="/products"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-white transition-colors"
-              style={{ backgroundColor: settings.primaryColor }}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
             >
-              제품 살펴보기
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
-            <Link
-              to="/about"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-md text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
-            >
-              회사 소개
-            </Link>
-          </motion.div>
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+                {slides[currentIndex]?.title}
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto">
+                {slides[currentIndex]?.description}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center gap-3">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 

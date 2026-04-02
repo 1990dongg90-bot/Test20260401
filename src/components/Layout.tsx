@@ -27,7 +27,7 @@ export default function Layout() {
                 <img
                   src={settings.logoUrl}
                   alt={settings.siteName}
-                  className="h-8 w-auto"
+                  className="h-[38px] w-auto"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.nextElementSibling?.classList.remove('hidden');
